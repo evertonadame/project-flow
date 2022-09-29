@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Node {
+  nodeId String @id @default(uuid())
+  createdAt DateTime @default(now())
+  type String 
+  userId String
+  label String
+  position String
+  user  User @relation(fields: [userId], references: [id])
+  @@map("nodes")
+}
+
+
+model User {
+  id String @id @default(uuid())
+  name String
+  email String
+  password String
+  createdAt DateTime @default(now())
+  nodes Node[]
+  @@map("users")
+}
